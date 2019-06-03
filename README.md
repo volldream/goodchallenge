@@ -36,4 +36,6 @@ Run `./nodeapp build {version_number}` to build new image
 
 Run `./nodeapp deploy {version_number}` to deploy new image on kubernetes cluster
 
+## What a real life deployment would need extra?
 
+There are serveral way that we can use them but my solution is based on Jenkins, GitHub, and Kubernetes. we should setup Jenkins and connect it to GitHub with a Github hook then we can define many pipelines and rollback solution. for example create a pipeline when a commit on master branch Jenkins start to build a new image with the suitable tag number, at next step we can write some test for application such as unit test, smoke test, and some function test and run it before deploying on production. Also, we can define more deployment stage for manual test and finally we can deploy it on the production server.
