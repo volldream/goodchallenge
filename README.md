@@ -8,11 +8,32 @@ This is a challenge for evaluating my Kubernetes and container skill
 
 `npm start`
 
-## Build docker file and push it on docker registery
+## Run Application
 
-#### Run below command to build docker file
-`docker build -t {yourrepo}/nodeapp .`
+#### Add Repository information 
+First of all set some repository value on nodeapp file 
 
-#### Run containerized app on local env 
-`docker run -d -p 8080:8080 {yourrepo}/nodeapp`
+Your repository address and name
+`REPO="YOUR_REPO"`
+
+Your repository username
+`USERNAME="USERNAME"`
+
+Your repository password
+`PASSWORD="PASSWORD"`
+
+#### init application for first time
+
+For first run run command 
+
+`./nodeapp init`
+
+#### build new image 
+
+Run `./nodeapp build {version_number}` to build new image
+
+#### deploy new image 
+
+Run `./nodeapp deploy {version_number}` to deploy new image on kubernetes cluster
+
 
