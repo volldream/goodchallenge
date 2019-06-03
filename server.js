@@ -14,7 +14,7 @@ app.get('/', (req, res) => {
 
 app.get('/version', (req, res) => {
    var version = process.versions["node"];
-   res.send('Node version is: ' + version);
+   res.send('Application version is: ' + process.env["APP_VERSION"]);
 });
 
 app.listen(PORT, HOST);
