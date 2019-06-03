@@ -1,0 +1,55 @@
+#!/bin/bash
+
+function usage {
+    cat <<EOF
+Usage:
+  $0 [command]
+
+Available commands:
+  init                      Setup environment
+  build                     build docker image with version
+  deploy                    deploy with image tag
+
+EOF
+    exit 1
+}
+
+
+REPO="YOUR_REPO"
+USERNAME="USERNAME"
+PASSWORD="PASSWORD"
+
+case $1 in
+    "init")
+        docker build -t $REPO/nodeapp:0.0.1 .
+        docker login --usernam=$USERNAME --password=$PASSWORD
+        docker push $REPO/nodeapp:0.0.1
+        sed -i "s/image:.*/image: $REPO\/nodeapp:0.0.1/g" deployment.yml
+        sed -i "s/nodeapp:[0-9][0-9.]*$/nodeapp:0.0.1/g" deployment.yml
+        sed -i "s/value: [0-9][0-9.]*$/value: 0.0.1/g" deployment.yml
+        kubectl apply -f deployment.yml
+        kubectl apply -f service.yml
+        kubectl apply -f ingress.yml
+
+    ;;
+    "build")
+        if [[ -n $2 && $2 != '' ]]
+        then
+            docker build -t $REPO/nodeapp:$2 .
+            docker login --usernam=$USERNAME --password=$PASSWORD
+            docker push $REPO/nodeapp:$2
+        else
+            echo "Please enter valid version like 0.0.1"
+        fi
+    ;;
+    "deploy")
+        if [[ -n $2 && $2 != '' ]]
+        then
+            sed -i "s/image:.*/image: $REPO\/nodeapp:$2/g" deployment.yml
+            sed -i "s/value: [0-9][0-9.]*$/value: $2/g" deployment.yml
+            kubectl apply -f deployment.yml
+        else
+            echo "Please enter valid version like 0.0.1"
+        fi
+    ;;
+esac
