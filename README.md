@@ -4,8 +4,9 @@ This is a challenge for evaluating my Kubernetes and container skill
 ## Run app on local 
 
 #### You can run app on your local env with two command
-`npm install\n
-npm start`
+`npm install`
+
+`npm start`
 
 ## Build docker file and push it on docker registery
 
